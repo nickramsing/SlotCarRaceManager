@@ -1,0 +1,11 @@
+[project]
+name = "slotcarracemanager"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.14"
+dependencies = [
+    "notebook>=7.5.2",
+    "ortools",
+    "polars>=1.37.1",
+    "pyyaml",
+]

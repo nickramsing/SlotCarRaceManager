@@ -1,0 +1,14 @@
+{"timestamp": "2026-01-21 11:37:57", "level": "INFO", "message": "Attempting to save full race schedule of Heats: generating... ", "module": "publish_schedule", "function": "export_schedule_csv_Heats", "line": 22}
+{"timestamp": "2026-01-21 11:37:57", "level": "INFO", "message": "Full schedule of heats successfully exported to: tournament_heats.csv", "module": "publish_schedule", "function": "export_schedule_csv_Heats", "line": 34}
+{"timestamp": "2026-01-21 11:37:57", "level": "INFO", "message": "Attempting to save Drivers schedule: generating... ", "module": "publish_schedule", "function": "export_schedule_csv_Drivers", "line": 57}
+{"timestamp": "2026-01-21 11:37:57", "level": "INFO", "message": "Drivers schedule successfully exported to: tournament_drivers.csv", "module": "publish_schedule", "function": "export_schedule_csv_Drivers", "line": 65}
+{"timestamp": "2026-01-21 11:39:21", "level": "INFO", "message": "Attempting to save full race schedule of Heats: generating... ", "module": "publish_schedule", "function": "export_schedule_csv_Heats", "line": 22}
+{"timestamp": "2026-01-21 11:39:21", "level": "INFO", "message": "Full schedule of heats successfully exported to: tournament_heats.csv", "module": "publish_schedule", "function": "export_schedule_csv_Heats", "line": 34}
+{"timestamp": "2026-01-21 11:39:21", "level": "INFO", "message": "Attempting to save Drivers schedule: generating... ", "module": "publish_schedule", "function": "export_schedule_csv_Drivers", "line": 57}
+{"timestamp": "2026-01-21 11:39:21", "level": "INFO", "message": "Drivers schedule successfully exported to: tournament_drivers.csv", "module": "publish_schedule", "function": "export_schedule_csv_Drivers", "line": 65}
+{"timestamp": "2026-01-21 11:58:21", "level": "INFO", "message": "Printing schedule to console...", "module": "publish_schedule", "function": "print_schedule_to_console", "line": 75}
+{"timestamp": "2026-01-21 11:58:21", "level": "INFO", "message": "Successfully printed schedule to console.", "module": "publish_schedule", "function": "print_schedule_to_console", "line": 80}
+{"timestamp": "2026-01-21 11:58:21", "level": "INFO", "message": "Attempting to save full race schedule of Heats: generating... ", "module": "publish_schedule", "function": "export_schedule_csv_Heats", "line": 20}
+{"timestamp": "2026-01-21 11:58:21", "level": "INFO", "message": "Full schedule of heats successfully exported to: tournament_heats.csv", "module": "publish_schedule", "function": "export_schedule_csv_Heats", "line": 31}
+{"timestamp": "2026-01-21 11:58:21", "level": "INFO", "message": "Attempting to save Drivers schedule: generating... ", "module": "publish_schedule", "function": "export_schedule_csv_Drivers", "line": 53}
+{"timestamp": "2026-01-21 11:58:21", "level": "INFO", "message": "Drivers schedule successfully exported to: tournament_drivers.csv", "module": "publish_schedule", "function": "export_schedule_csv_Drivers", "line": 61}
