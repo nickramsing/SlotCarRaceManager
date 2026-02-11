@@ -5,10 +5,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 SlotCarRaceManager is a tournament scheduling system for slot car races. It uses Google OR-Tools constraint programming to generate fair race schedules where:
-- 18 drivers use 6 cars (identified by color)
+- Configurable number of drivers (default 18) use configurable cars (default 6, identified by color)
 - Each driver must use each car exactly once
 - Every pair of drivers races together 1-2 times
-- Minimizes total heats and wasted lane slots
+- Drivers stay engaged (configurable max idle heats between races)
+- Minimizes total heats, idle violations, and wasted lane slots
 
 ## Commands
 
@@ -31,7 +32,8 @@ jupyter notebook Validate_RaceSchedule.ipynb
 - `x[d,c,h]`: driver d uses car c in heat h
 - `y[h]`: heat h is used
 - `p[d1,d2,h]`: drivers meet in heat h
-- Objective: minimize `1000 * heats + wasted_slots`
+- Idle constraint: `max_idle_heats` (default 3), modes: 'hard', 'soft', 'off'
+- Objective: minimize `1000 * heats + idle_penalty * violations + wasted_slots`
 
 **Output**: `services/publish_schedule.py` - Exports to two CSV views:
 - `tournament_heats.csv`: Heat-centric (columns are car colors)
@@ -45,6 +47,13 @@ jupyter notebook Validate_RaceSchedule.ipynb
 - `polars`: DataFrame operations (used in validation notebook)
 - `pyyaml`: Logger configuration
 - `notebook`: Jupyter for validation
+
+## Specialized Agent
+
+For optimization work on `create_race_schedule.py`, see `OPTIMIZER_AGENT.md` which provides:
+- Detailed constraint model documentation
+- Feasibility analysis for different configurations
+- OR-Tools patterns and best practices
 
 ## Planned Features
 

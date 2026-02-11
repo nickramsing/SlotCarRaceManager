@@ -9,7 +9,9 @@ logger = get_logger(__name__)
 CARS = ["Red", "Green", "Blue", "Yellow", "Orange", "White"]
 SLOTS_PER_HEAT = 6
 NUMBER_OF_PARTICIPANTS = 18
-SOLUTION_TIME_LIMIT = 30
+MAX_IDLE_HEATS = 3  # Target maximum consecutive heats a driver can sit out
+IDLE_CONSTRAINT_MODE = 'soft'  # 'hard', 'soft', or 'off'
+SOLUTION_TIME_LIMIT = 60
 CSV_FILENAME_HEATS = "tournament_heats.csv"
 CSV_FILENAME_DRIVERS = "tournament_drivers.csv"
 
@@ -26,7 +28,9 @@ def controller():
         schedule = cs.solve_tournament(num_drivers=NUMBER_OF_PARTICIPANTS,
                                        time_limit=SOLUTION_TIME_LIMIT,
                                        CARS=CARS,
-                                       SLOTS_PER_HEAT=SLOTS_PER_HEAT)
+                                       SLOTS_PER_HEAT=SLOTS_PER_HEAT,
+                                       max_idle_heats=MAX_IDLE_HEATS,
+                                       idle_constraint_mode=IDLE_CONSTRAINT_MODE)
         #Prints schedule to system console
         #outcome_console = ps.print_schedule_to_console(schedule=schedule)
 

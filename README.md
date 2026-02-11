@@ -44,6 +44,41 @@ You are an applied mathematician familiar with optimization problems. You are al
  
 # Learnings
 
+## InContext Learning
+### Create a dedicated Agent to assess, validate, and modify the race schedule creation logic
+1.  CLAUDE.md vs. Specialized Agent File                                                                                                                                      
+                                                                                                                                                                            
+-  Both are valuable, serving different purposes:                                                                                                                            
+  ┌──────────────────────────┬───────────────────────────────────────────────┐                                                                                              
+  │        CLAUDE.md         │ Specialized Agent (e.g., OPTIMIZER_AGENT.md)  │                                                                                              
+  ├──────────────────────────┼───────────────────────────────────────────────┤                                                                                              
+  │ General project guidance │ Deep domain expertise                         │                                                                                              
+  ├──────────────────────────┼───────────────────────────────────────────────┤                                                                                              
+  │ Architecture overview    │ Mathematical formulations & OR-Tools patterns │                                                                                              
+  ├──────────────────────────┼───────────────────────────────────────────────┤                                                                                              
+  │ Build commands           │ Optimization trade-off reasoning              │                                                                                              
+  ├──────────────────────────┼───────────────────────────────────────────────┤                                                                                              
+  │ Broad scope              │ Focused on create_race_schedule.py            │                                                                                              
+  └──────────────────────────┴───────────────────────────────────────────────┘                                                                                              
+-  Recommendation: Keep CLAUDE.md as-is for general project context. Create a separate OPTIMIZER_AGENT.md that you can reference when working specifically on schedule       
+  optimization. You can invoke it by asking Claude Code to "use the optimizer agent persona" or by including it in context.                                                 
+                                                                                                                                                                            
+2. Summary of Objectives for the Agent                                                                                                                                       
+                                                                                                                                                                            
+- The agent should optimize for:                                                                                                                     
+                                                                                                                                                                            
+  1. Car equity: Every driver races each car exactly once ✓ (existing)                                                                                                      
+  2. Pairing equity: Every driver pair meets 1-2 times ✓ (existing)                                                                                                         
+  3. Engagement: No driver sits idle for more than 3 consecutive heats ⚡ (new constraint)                                                                                  
+  4. Flexibility: Handle variable driver/car/slot counts ⚡ (enhancement)                                                                                                   
+  5. Minimize heats + wasted slots ✓ (existing objective)                                                                                                                   
+                                                                                                                                                                             
+- It will include:                                                                                             
+  - The three-perspective persona (mathematician, developer, hobbyist)                                                                                                      
+  - Current constraint model documentation                                                                                                                                  
+  - The new idle-time constraint requirement                                                                                                                                
+  - Guidance for evaluating and improving the solver   
+- 
 
 # To Dos:
 1. Add logging: [DONE]
