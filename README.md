@@ -80,6 +80,52 @@ You are an applied mathematician familiar with optimization problems. You are al
   - Guidance for evaluating and improving the solver   
 - 
 
+### What Was Implemented                                                                                                                                                      
+                                                                                                                                                                            
+1. In services/create_race_schedule.py                                                                                                                                          
+                                                                                                                                                                            
+   - New parameters added to solve_tournament():                                                                                                                               
+     ┌──────────────────────┬─────────┬───────────────────────────────────────────────────┐                                                                                    
+     │      Parameter       │ Default │                    Description                    │                                                                                    
+     ├──────────────────────┼─────────┼───────────────────────────────────────────────────┤                                                                                    
+     │ max_idle_heats       │ 3       │ Target max consecutive heats a driver can sit out │                                                                                    
+     ├──────────────────────┼─────────┼───────────────────────────────────────────────────┤                                                                                    
+     │ idle_constraint_mode │ 'soft'  │ 'hard' (must satisfy), 'soft' (penalize), 'off'   │                                                                                    
+     ├──────────────────────┼─────────┼───────────────────────────────────────────────────┤                                                                                    
+     │ idle_penalty_weight  │ 500     │ Penalty per violation in objective (soft mode)    │                                                                                    
+     └──────────────────────┴─────────┴───────────────────────────────────────────────────┘                                                                                    
+   - New constraints:                                                                                                                                                          
+     - Symmetry breaking: Heats used in order (y[h+1] => y[h])                                                                                                                 
+     - Idle constraint: Sliding window ensures driver engagement                                                                                                               
+                                                                                                                                                                            
+2. In main.py                                                                                                                                                                   
+                                                                                                                                                                            
+   - New global variables:                                                                                                                                                     
+     - MAX_IDLE_HEATS = 3                                                                                                                                                      
+     - IDLE_CONSTRAINT_MODE = 'soft'                                                                                                                                           
+     - SOLUTION_TIME_LIMIT = 60 (increased from 30)                                                                                                                            
+                                                                                                                                                                            
+#### Key Findings                                                                                                                                                               
+                                                                                                                                                                            
+- max_idle_heats=3 is infeasible in hard mode for 18 drivers due to the pairing constraint (153 pairs, each meeting 1-2 times). The soft constraint mode handles this gracefully by minimizing violations while maintaining feasibility.                                                                                                        
+     ┌────────────────────────┬──────┬────────────────────────┐                                                                                                                
+     │     Configuration      │ Mode │         Result         │                                                                                                                
+     ├────────────────────────┼──────┼────────────────────────┤                                                                                                                
+     │ 12 drivers, max_idle=3 │ hard │ ✓ Achieves target      │                                                                                                                
+     ├────────────────────────┼──────┼────────────────────────┤                                                                                                                
+     │ 18 drivers, max_idle=3 │ hard │ ✗ Infeasible           │                                                                                                                
+     ├────────────────────────┼──────┼────────────────────────┤                                                                                                                
+     │ 18 drivers, max_idle=3 │ soft │ ✓ Minimizes violations │                                                                                                                
+     ├────────────────────────┼──────┼────────────────────────┤                                                                                                                
+     │ 18 drivers, max_idle=5 │ hard │ ✓ Achieves target      │                                                                                                                
+     └────────────────────────┴──────┴────────────────────────┘                                                                                                                
+- Files Updated                                                                                                                                                              
+  - services/create_race_schedule.py - Solver with idle constraint                                                                                                          
+  - main.py - New configuration parameters                                                                                                                                  
+  - OPTIMIZER_AGENT.md - Documented implementation and findings                                                                                                             
+  - CLAUDE.md - Updated project overview                                                                                                                                    
+                                                                                                                                                                            
+
 # To Dos:
 1. Add logging: [DONE]
    1. create a logging module to handle logs - DONE
