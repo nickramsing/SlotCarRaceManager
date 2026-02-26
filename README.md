@@ -141,8 +141,7 @@ You are an applied mathematician familiar with optimization problems. You are al
    4. Add logging to services
       1. create_race_schedule.py - to do
       2. publish_schedule.py - DONE
-2. video to review: https://www.youtube.com/watch?v=pxuXaaT1u3k
-3. Incorporate FastAPI with an HTML Form, deployed to a cloud host
+2. Incorporate FastAPI with an HTML Form, deployed to a cloud host
    - Objective: Make it easier for a user to access and provide the race parameters
    - Reasoning:
      1. Distribution is the dominant problem, not the UI. Both options produce roughly equivalent "fill in a form" experiences. The difference is how your friend gets
