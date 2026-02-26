@@ -1,19 +1,22 @@
 # PROBLEM
-A friend who enjoys [Scalextric slot car](https://uk.scalextric.com/) racing hosts race nights with friends and family. Since he is an avid racer - and former rally car driver - he has leg up on most other people attending his fun, yet competitve race nights. He is also concerned about equity, fairness, and ensuring his friends and family enjoy the time: competitive and exciting, but fair 
+A friend who enjoys [Scalextric slot car](https://uk.scalextric.com/) racing hosts race nights with friends and family. Since he is an avid racer - and former rally car driver - he has leg up on most other people attending his fun, yet competitve race nights. He is also concerned about equity, fairness, and ensuring his friends and family enjoy the time: he desires competitive and exciting, but fair time together. 
 
 *He desires to ensure a sense of equity and fair play regardless of who is racing or which slot car they might race.*  
-**He wants people to have fun and enjoy themselves as he does**
+**He wants people to have fun and enjoy themselves racing Scalextric as he does**
 
 # Solution Vision
-Find an optimization model using Python libraries that might solve for the 
+Find an optimization model using Python libraries that might solve for the various parameters: cars, drivers, etc.
 
 ## Technical Solution: true optimization / constraint-satisfaction model. 
+Here are the specifications:
 - 6 cars / slots per heat
 - Drivers must use each car once
 - Some heats may be partially filled
 - We want minimum number of heats and minimum wasted slots
 - Every pair must meet ≥ 1 and ≤ 2 times
--Below is a true optimizer-style solver using backtracking + pruning. It will:
+
+**Solution:**
+- Below is a true optimizer-style solver using backtracking + pruning. It will:
   - Work for 6, 12, 15, 18, … drivers
   - Minimizes number of heats
   - Minimizes wasted slots
