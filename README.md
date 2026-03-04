@@ -1,13 +1,13 @@
-# PROBLEM
+# 1: PROBLEM
 A friend who enjoys [Scalextric slot car](https://uk.scalextric.com/) racing hosts race nights with friends and family. Since he is an avid racer - and former rally car driver - he has leg up on most other people attending his fun, yet competitve race nights. He is also concerned about equity, fairness, and ensuring his friends and family enjoy the time: he desires competitive and exciting, but fair time together. 
 
 *He desires to ensure a sense of equity and fair play regardless of who is racing or which slot car they might race.*  
 **He wants people to have fun and enjoy themselves racing Scalextric as he does**
 
-# Solution Vision
+# 2: SOLUTION VISION
 Find an optimization model using Python libraries that might solve for the various parameters: cars, drivers, etc.
 
-## Technical Solution: true optimization / constraint-satisfaction model. 
+## 2.1: Technical Solution: true optimization / constraint-satisfaction model. 
 Here are the specifications:
 - 6 cars / slots per heat
 - Drivers must use each car once
@@ -27,16 +27,16 @@ Here are the specifications:
     - pair constraints: no pair meets more than twice
     - every pair meets at least once
 
-# Technical approach
+# 3: TECHNICAL APPROACH
 Iterated through a variety of optimization models, finally deciding to let Claude Code have a go at the solution. This section describes the iterations and learnings associated with the Claude Code optimzation.
 
-## Initial prompt 
+## 3.1 Initial prompt 
 You are an applied mathematician familiar with optimization problems. You are also a skilled hobbyist that races complex slot cars (such as scalextric slot cars) in fun, but highly competitive races. You are interested in ensuring races you host are fair and equitable. That is already challenging given that drivers possess different skills and levels of experiences and the slot cars do not perform exactly the same. You are hosting a race competition as the race director. The race competition is composed of a series of race events where You need to generate You want participants to all have fair chances per the following specifications: 1. You are constrained by having 6 cars: you can identify cars by their colors [Red, Green, Blue, Yellow, Orange, White]. 2. You have 18 drivers: you can label drivers D1 - D18 3. The race course can accommodate all 6 cars. So, each race event on the race course may have 6 drivers maximum. 4. Each driver must use each car (color) exactly once. This ensures equity with cars: everyone will have used each car. 5. Every driver must race other driver at least once but no more than twice. You must minimize the number of times drivers race against each other but you must ensure that everyone races each other. Can you construct a race schedule that ensures equity, but does not require endless race events? I want participants to be competitive, have fun, but not be board!
 - Objective:
   - Minimize heats
   - Minimize wasted slots
 
-## Claude Code Iterations
+## 3.2 Iterations with Claude Code interaction
 1. Scenario 1
    1. Objectives:
       1. Minimize heats 
@@ -51,8 +51,8 @@ You are an applied mathematician familiar with optimization problems. You are al
       2. Minimize waiting time for drivers between heats
    3. Outcomes:
  
-## Learning
-### Create a dedicated Agent to assess, validate, and modify the race schedule creation logic
+## 3.3: Learning
+### 3.3.1: Create a dedicated Agent to assess, validate, and modify the race schedule creation logic
 1.  CLAUDE.md vs. Specialized Agent File                                                                                                                                      
                                                                                                                                                                             
 -  Both are valuable, serving different purposes:                                                                                                                            
@@ -87,7 +87,7 @@ You are an applied mathematician familiar with optimization problems. You are al
   - Guidance for evaluating and improving the solver   
 
 
-### What Was Implemented                                                                                                                                                      
+### 3.3.2: What Was Implemented                                                                                                                                                      
                                                                                                                                                                             
 1. In services/create_race_schedule.py                                                                                                                                          
                                                                                                                                                                             
@@ -112,7 +112,7 @@ You are an applied mathematician familiar with optimization problems. You are al
      - IDLE_CONSTRAINT_MODE = 'soft'                                                                                                                                           
      - SOLUTION_TIME_LIMIT = 60 (increased from 30)                                                                                                                            
                                                                                                                                                                             
-#### Key Findings                                                                                                                                                               
+#### 3.3.3: Key Findings                                                                                                                                                               
                                                                                                                                                                             
 - max_idle_heats=3 is infeasible in hard mode for 18 drivers due to the pairing constraint (153 pairs, each meeting 1-2 times). The soft constraint mode handles this gracefully by minimizing violations while maintaining feasibility.                                                                                                        
      ┌────────────────────────┬──────┬────────────────────────┐                                                                                                                
@@ -133,28 +133,28 @@ You are an applied mathematician familiar with optimization problems. You are al
   - CLAUDE.md - Updated project overview                                                                                                                                    
                                                                                                                                                                             
 
-# To Dos:  Next Steps
-1. Add logging: [DONE]
-   1. create a logging module to handle logs - DONE
-   2. define a custom log message format - DONE 
-   3. send log message to log_writer - DONE
-   4. Add logging to services
-      1. create_race_schedule.py - to do
-      2. publish_schedule.py - DONE
-2. Incorporate FastAPI with an HTML Form, deployed to a cloud host
+# 4: NEXT STEPS: To Dos: Enable user input, track logs, deploy solution for use
+
+1. [x] Add logging: [DONE]
+    1. [x] create a logging module to handle logs
+    2. [x] define a custom log message format - DONE 
+    3. [x] send log message to log_writer - DONE
+    4. [x] Add logging to services
+        1. [ ] create_race_schedule.py - to do
+        2. [x] publish_schedule.py 
+2. [ ] Incorporate FastAPI with an HTML Form, deployed to a cloud host
    - Objective: Make it easier for a user to access and provide the race parameters
    - Reasoning:
      1. Distribution is the dominant problem, not the UI. Both options produce roughly equivalent "fill in a form" experiences. The difference is how your friend gets
-     the software running. A URL beats "install Python 3.14, clone repo, run commands" every time.
-     2. Your codebase is already structured for it. controller() is a clean function that takes parameters and returns a result dict. Wrapping it in a FastAPI endpoint
+     the software running. 
+     2. Codebase is already structured for it. controller() is a clean function that takes parameters and returns a result dict. Wrapping it in a FastAPI endpoint
       is minimal work. A Jinja2 template with 6 form fields is simpler than learning Tkinter geometry managers.
-     3. It aligns with your existing roadmap. CLAUDE.md already lists FastAPI as a planned feature. This avoids introducing a GUI framework you'd later abandon. 
-     4. The Python 3.14 requirement deserves attention regardless. Python 3.14 isn't broadly available yet. If your goal is making this easy for others, consider
-      testing against 3.12 or 3.13 — ortools and polars both support them. This one change would make local development feasible for others regardless of which option
-      you pick. 
-   - Suggested approach:
-     - FastAPI app with Jinja2 HTML form (not just a JSON API)
-     - Form fields for the 6 parameters with sensible defaults matching your current globals
-     - Submit returns the CSVs as downloadable files (using StreamingResponse or FileResponse)
-     - Deploy to a free-tier host (Render or Railway work well for Python apps)
-     - Keep the JSON API endpoint too for programmatic access later
+   - Planned approach:
+     - [x] Add FastAPI framework: routers and views
+     - [x] Add Pydantic model  for race inputs - ensure validation from Swagger
+     - [x] Create CSV files and return success message
+     - [ ] Add Jinja2 HTML form to receive parameters and post to schedule view
+     - [ ] Add Form validation input parameters with sensible defaults 
+     - [ ] Submit returns the CSVs as downloadable files (using StreamingResponse or FileResponse)
+     - [ ] Deploy to FastAPI host
+
