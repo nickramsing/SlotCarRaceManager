@@ -8,4 +8,7 @@ dependencies = [
     "ortools",
     "polars>=1.37.1",
     "pyyaml",
+    "pydantic",
+    "fastapi",
+    "uvicorn>=0.41.0",
 ]
