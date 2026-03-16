@@ -7,16 +7,22 @@ A friend who enjoys [Scalextric slot car](https://uk.scalextric.com/) racing hos
 # 2: SOLUTION VISION
 Find an optimization model using Python libraries that might solve for the various parameters: cars, drivers, etc.
 
-## 2.1: Technical Solution: true optimization / constraint-satisfaction model. 
-Here are the specifications:
+## 2.1: Use Cases and User Stories
+
+1. UC: Create schedule
+   - As a race event host, I want to create a fair, equitable race schedule so that every participant feels competitive and can enjoy themselves.
+   - As a race event host, I want to export the schedule in a print-friendly format so that I can easily manage the race at runtime. 
+
+## 2.2: Technical Solution: true optimization / constraint-satisfaction model. 
+1. Specifications:
 - 6 cars / slots per heat
 - Drivers must use each car once
 - Some heats may be partially filled
 - We want minimum number of heats and minimum wasted slots
 - Every pair must meet ≥ 1 and ≤ 2 times
 
-**Solution:**
-- Below is a true optimizer-style solver using backtracking + pruning. It will:
+2. **Solution:**
+- In the technical approach section an optimizer-style solver using backtracking + pruning is describe. The model will:
   - Work for 6, 12, 15, 18, … drivers
   - Minimizes number of heats
   - Minimizes wasted slots
@@ -27,111 +33,36 @@ Here are the specifications:
     - pair constraints: no pair meets more than twice
     - every pair meets at least once
 
-# 3: TECHNICAL APPROACH
-Iterated through a variety of optimization models, finally deciding to let Claude Code have a go at the solution. This section describes the iterations and learnings associated with the Claude Code optimzation.
+## 2.3 Technical Approach with Claude Code
+Leveraged Claude Code prompting to explore, evaluate, and solve the optimization mathmatics problem.
+- Iterated through models and Python libraries
+- [Claude solution in separate learning document](READNE_Technical_LLM_Solution.md) 
 
-## 3.1 Initial prompt 
-You are an applied mathematician familiar with optimization problems. You are also a skilled hobbyist that races complex slot cars (such as scalextric slot cars) in fun, but highly competitive races. You are interested in ensuring races you host are fair and equitable. That is already challenging given that drivers possess different skills and levels of experiences and the slot cars do not perform exactly the same. You are hosting a race competition as the race director. The race competition is composed of a series of race events where You need to generate You want participants to all have fair chances per the following specifications: 1. You are constrained by having 6 cars: you can identify cars by their colors [Red, Green, Blue, Yellow, Orange, White]. 2. You have 18 drivers: you can label drivers D1 - D18 3. The race course can accommodate all 6 cars. So, each race event on the race course may have 6 drivers maximum. 4. Each driver must use each car (color) exactly once. This ensures equity with cars: everyone will have used each car. 5. Every driver must race other driver at least once but no more than twice. You must minimize the number of times drivers race against each other but you must ensure that everyone races each other. Can you construct a race schedule that ensures equity, but does not require endless race events? I want participants to be competitive, have fun, but not be board!
-- Objective:
-  - Minimize heats
-  - Minimize wasted slots
+# 3:CODE STRUCTURE
 
-## 3.2 Iterations with Claude Code interaction
-1. Scenario 1
-   1. Objectives:
-      1. Minimize heats 
-      1. Minimize wasted slots
-   1. Outcomes:
-      1. Works!  Meets current objectives 
-      2. But some drivers need to wait for several heats before racing again
-1. Scenario 2
-   1. Objectives:
-      1. Minimize heats 
-      1. Minimize wasted slots
-      2. Minimize waiting time for drivers between heats
-   3. Outcomes:
- 
-## 3.3: Learning
-### 3.3.1: Create a dedicated Agent to assess, validate, and modify the race schedule creation logic
-1.  CLAUDE.md vs. Specialized Agent File                                                                                                                                      
+## 3.1 Create Schedule
+1. Sequence Diagram
+![Sequence Diagram: Create Schedule:](./static/images/SequanceDiagram_CreateSchedule.png)
                                                                                                                                                                             
--  Both are valuable, serving different purposes:                                                                                                                            
-  ┌──────────────────────────┬───────────────────────────────────────────────┐                                                                                              
-  │        CLAUDE.md         │ Specialized Agent (e.g., OPTIMIZER_AGENT.md)  │                                                                                              
-  ├──────────────────────────┼───────────────────────────────────────────────┤                                                                                              
-  │ General project guidance │ Deep domain expertise                         │                                                                                              
-  ├──────────────────────────┼───────────────────────────────────────────────┤                                                                                              
-  │ Architecture overview    │ Mathematical formulations & OR-Tools patterns │                                                                                              
-  ├──────────────────────────┼───────────────────────────────────────────────┤                                                                                              
-  │ Build commands           │ Optimization trade-off reasoning              │                                                                                              
-  ├──────────────────────────┼───────────────────────────────────────────────┤                                                                                              
-  │ Broad scope              │ Focused on create_race_schedule.py            │                                                                                              
-  └──────────────────────────┴───────────────────────────────────────────────┘                                                                                              
--  Recommendation: Keep CLAUDE.md as-is for general project context. Create a separate OPTIMIZER_AGENT.md that you can reference when working specifically on schedule       
-  optimization. You can invoke it by asking Claude Code to "use the optimizer agent persona" or by including it in context.                                                 
-                                                                                                                                                                            
-2. Summary of Objectives for the Agent                                                                                                                                       
-                                                                                                                                                                            
-- The agent should optimize for:                                                                                                                     
-                                                                                                                                                                            
-  1. Car equity: Every driver races each car exactly once ✓ (existing)                                                                                                      
-  2. Pairing equity: Every driver pair meets 1-2 times ✓ (existing)                                                                                                         
-  3. Engagement: No driver sits idle for more than 3 consecutive heats ⚡ (new constraint)                                                                                  
-  4. Flexibility: Handle variable driver/car/slot counts ⚡ (enhancement)                                                                                                   
-  5. Minimize heats + wasted slots ✓ (existing objective)                                                                                                                   
-                                                                                                                                                                             
-- It will include:                                                                                             
-  - The three-perspective persona (mathematician, developer, hobbyist)                                                                                                      
-  - Current constraint model documentation                                                                                                                                  
-  - The new idle-time constraint requirement                                                                                                                                
-  - Guidance for evaluating and improving the solver   
+## 3.1 Download Schedule
+1. Sequence Diagram [to create]
 
 
-### 3.3.2: What Was Implemented                                                                                                                                                      
-                                                                                                                                                                            
-1. In services/create_race_schedule.py                                                                                                                                          
-                                                                                                                                                                            
-   - New parameters added to solve_tournament():                                                                                                                               
-     ┌──────────────────────┬─────────┬───────────────────────────────────────────────────┐                                                                                    
-     │      Parameter       │ Default │                    Description                    │                                                                                    
-     ├──────────────────────┼─────────┼───────────────────────────────────────────────────┤                                                                                    
-     │ max_idle_heats       │ 3       │ Target max consecutive heats a driver can sit out │                                                                                    
-     ├──────────────────────┼─────────┼───────────────────────────────────────────────────┤                                                                                    
-     │ idle_constraint_mode │ 'soft'  │ 'hard' (must satisfy), 'soft' (penalize), 'off'   │                                                                                    
-     ├──────────────────────┼─────────┼───────────────────────────────────────────────────┤                                                                                    
-     │ idle_penalty_weight  │ 500     │ Penalty per violation in objective (soft mode)    │                                                                                    
-     └──────────────────────┴─────────┴───────────────────────────────────────────────────┘                                                                                    
-   - New constraints:                                                                                                                                                          
-     - Symmetry breaking: Heats used in order (y[h+1] => y[h])                                                                                                                 
-     - Idle constraint: Sliding window ensures driver engagement                                                                                                               
-                                                                                                                                                                            
-2. In main.py                                                                                                                                                                   
-                                                                                                                                                                            
-   - New global variables:                                                                                                                                                     
-     - MAX_IDLE_HEATS = 3                                                                                                                                                      
-     - IDLE_CONSTRAINT_MODE = 'soft'                                                                                                                                           
-     - SOLUTION_TIME_LIMIT = 60 (increased from 30)                                                                                                                            
-                                                                                                                                                                            
-#### 3.3.3: Key Findings                                                                                                                                                               
-                                                                                                                                                                            
-- max_idle_heats=3 is infeasible in hard mode for 18 drivers due to the pairing constraint (153 pairs, each meeting 1-2 times). The soft constraint mode handles this gracefully by minimizing violations while maintaining feasibility.                                                                                                        
-     ┌────────────────────────┬──────┬────────────────────────┐                                                                                                                
-     │     Configuration      │ Mode │         Result         │                                                                                                                
-     ├────────────────────────┼──────┼────────────────────────┤                                                                                                                
-     │ 12 drivers, max_idle=3 │ hard │ ✓ Achieves target      │                                                                                                                
-     ├────────────────────────┼──────┼────────────────────────┤                                                                                                                
-     │ 18 drivers, max_idle=3 │ hard │ ✗ Infeasible           │                                                                                                                
-     ├────────────────────────┼──────┼────────────────────────┤                                                                                                                
-     │ 18 drivers, max_idle=3 │ soft │ ✓ Minimizes violations │                                                                                                                
-     ├────────────────────────┼──────┼────────────────────────┤                                                                                                                
-     │ 18 drivers, max_idle=5 │ hard │ ✓ Achieves target      │                                                                                                                
-     └────────────────────────┴──────┴────────────────────────┘                                                                                                                
-- Files Updated                                                                                                                                                              
-  - services/create_race_schedule.py - Solver with idle constraint                                                                                                          
-  - main.py - New configuration parameters                                                                                                                                  
-  - OPTIMIZER_AGENT.md - Documented implementation and findings                                                                                                             
-  - CLAUDE.md - Updated project overview                                                                                                                                    
-                                                                                                                                                                            
+## 3.3 Logging
+1. Created logger to track application progress and errors
+2. Instantiate and use as follows - also described in the /log-writer/logger.py file
+```pytyhon
+    #instantiate module level logger
+    logger = get_logger(__name__)
+
+    #use case: document process steps
+    logger.info(f"Full schedule of heats successfully exported to: {heats_filename}")
+    
+    #use case: capture exceptions
+    except Exception as e:
+        logger.error(f"EXCEPTION OCCURRED: generating full schedule: {e}")
+        return False
+```
 
 # 4: NEXT STEPS: To Dos: Enable user input, track logs, deploy solution for use
 
