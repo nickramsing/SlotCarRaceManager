@@ -16,10 +16,6 @@ logger = get_logger(__name__)
 # CSV_FILENAME_DRIVERS = "tournament_drivers.csv"
 #
 # '''
-# IMPROVEMENTS
-# todo: check on out each function SHOULD return
-# todo: How might include RESTful API with FASTAPI to support request?
-# todo: if receive inputs via RESTful API, then need to redo the global variables! How store with default/received values?
 # '''
 #
 # def controller():
