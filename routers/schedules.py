@@ -30,7 +30,8 @@ async def create_schedule(race_inputs: race_input_model):
         logger.info(f"Receiving race input data to pass to the controller. ")
         logger.info(f"Race input file data: {race_inputs} ")
 
-        response = controller(number_of_participants=race_inputs.number_of_participants,
+        response = controller(event_name=race_inputs.event_name,
+                              number_of_participants=race_inputs.number_of_participants,
                               cars=race_inputs.cars,
                               slots_per_heat=race_inputs.slots_per_heat,
                               max_idle_heats=race_inputs.max_idle_heats,

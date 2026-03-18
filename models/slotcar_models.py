@@ -9,6 +9,7 @@ class idle_modes(str, Enum):
 
 
 class race_input_model(BaseModel):
+    event_name: str                 #user defined name of event
     number_of_participants: int     # total number of drivers
     cars: List[str]                 # list of cars - in COLORS of the car
     slots_per_heat: int             # number of slots per heat == number of cars that be in a heat
@@ -19,6 +20,7 @@ class race_input_model(BaseModel):
     model_config = ConfigDict(json_schema_extra={
         'examples': [
             {
+                "event_name": "Friends race event",
                 "number_of_participants": 18,
                 "cars": ["Red", "Green", "Blue", "Yellow", "Orange", "White"],
                 "slots_per_heat": 6,
@@ -27,6 +29,7 @@ class race_input_model(BaseModel):
                 "idle_constraint_mode": "soft"
             },
             {
+                "event_name": "Friends race event",
                 "number_of_participants": 12,
                 "cars": ["Red", "Green", "Blue", "Yellow", "Orange", "White"],
                 "slots_per_heat": 6,

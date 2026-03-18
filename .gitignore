@@ -1,4 +1,4 @@
 /Validate_RaceSchedule.ipynb
 /logs/app.log
-tournament_drivers.csv
-tournament_heats.csv
+output_files/tournament_drivers.csv
+output_files/tournament_heats.csv

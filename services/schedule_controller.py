@@ -8,10 +8,11 @@ from log_writer.logger import get_logger
 logger = get_logger(__name__)
 
 ##Switch to Environmental - YAML configuration
-CSV_FILENAME_HEATS = "tournament_heats.csv"
-CSV_FILENAME_DRIVERS = "tournament_drivers.csv"
+CSV_FILENAME_HEATS = "UPDATE TO RETURN NAME OF FILE"
+CSV_FILENAME_DRIVERS = "UPDATE TO RETURN NAME OF FILE"
 
-def controller(number_of_participants: int,
+def controller(event_name: str,
+               number_of_participants: int,
                cars: List[str],
                slots_per_heat: int,
                max_idle_heats: int,
@@ -35,11 +36,11 @@ def controller(number_of_participants: int,
             '''
             outcome_heat = ps.export_schedule_csv_Heats(schedule,
                                    CARS=cars,
-                                   heats_filename=CSV_FILENAME_HEATS)
+                                   event_name=event_name)
 
             outcome_drivers = ps.export_schedule_csv_Drivers(schedule,
                                    CARS=cars,
-                                   drivers_filename=CSV_FILENAME_DRIVERS)
+                                   event_name=event_name)
             #determine workflow based on function calls
             if outcome_heat == True and outcome_drivers == True:
                 outcome = True

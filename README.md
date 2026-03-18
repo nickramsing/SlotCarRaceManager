@@ -41,12 +41,24 @@ Leveraged Claude Code prompting to explore, evaluate, and solve the optimization
 # 3:CODE STRUCTURE
 
 ## 3.1 Create Schedule
-1. Sequence Diagram
+1. Key Steps
+   1. Obtain parameters from User: HTML template view
+      - Display a "processing icon" (not progress bar) to User until return message is available
+   2. Parameters received at RESTful POST endpoint on schedule router: validated with input model
+   3. Input model values passed to Controller
+   4. Controller passes to create schedule
+   5. Once schedule is created, schedule passed to export schedule to CSV
+   6. Return message to User on HTML template
+      - Remove the "processing icon"
+      - Display the name of the file such that when the User clicks on it, the file can be downloaded
+2. Sequence Diagram
 ![Sequence Diagram: Create Schedule:](./static/images/SequanceDiagram_CreateSchedule.png)
                                                                                                                                                                             
-## 3.1 Download Schedule
-1. Sequence Diagram [to create]
-
+## 3.2 Download Schedule
+1. Key Steps
+   1. User sees message that schedule is available: link to access the file
+   2. User clicks on the link to download the file, activating RESTful GET on schedule router
+   3. Router accesses file and returns to User as file download
 
 ## 3.3 Logging
 1. Created logger to track application progress and errors
