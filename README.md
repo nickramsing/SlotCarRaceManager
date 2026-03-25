@@ -1,5 +1,5 @@
 # 1: PROBLEM
-A friend who enjoys [Scalextric slot car](https://uk.scalextric.com/) racing hosts race nights with friends and family. Since he is an avid racer - and former rally car driver - he has leg up on most other people attending his fun, yet competitve race nights. He is also concerned about equity, fairness, and ensuring his friends and family enjoy the time: he desires competitive and exciting, but fair time together. 
+A friend who enjoys [Scalextric slot car](https://uk.scalextric.com/) racing hosts race nights with friends and family. Since he is an avid racer - and former rally car driver - he has leg up on most other people attending his fun, yet competitive race nights. He is also concerned about equity, fairness, and ensuring his friends and family enjoy the time: he desires competitive and exciting, but fair time together. 
 
 *He desires to ensure a sense of equity and fair play regardless of who is racing or which slot car they might race.*  
 **He wants people to have fun and enjoy themselves racing Scalextric as he does**
